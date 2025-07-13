@@ -15,4 +15,8 @@ class TimelineEvent(eventName: String, eventNotes: String = "",) {
     fun logUuid() {
         Log.d("TimelineEventClass","EventName: " + eventName+ " EventUUID: " + eventUUID)
     }
+
+    fun logNotes() {
+        Log.d("TimelineEventClass","EventName: " + eventName+ " EventNotes: " + eventNotes)
+    }
 }
