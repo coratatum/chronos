@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                         )
                         FilledButtonExample(onClick = {
                             Log.d("Filled button", "Filled button clicked.")
-                            var testEvent = TimelineEvent("newEvent")
+                            var testEvent = TimelineEvent("newEvent", 0)
                             testEvent.logUuid()
                             testEvent.eventName = "Name 2"
                             testEvent.logNotes()
