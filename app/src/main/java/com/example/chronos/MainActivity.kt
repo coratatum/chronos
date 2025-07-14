@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,8 +42,12 @@ class MainActivity : ComponentActivity() {
                         )
                         FilledButtonExample(onClick = {
                             Log.d("Filled button", "Filled button clicked.")
-                            TimelineEvent("newEvent").logUuid()
+                            var testEvent = TimelineEvent("newEvent")
+                            testEvent.logUuid()
+                            testEvent.eventName = "Name 2"
+                            testEvent.logNotes()
                         })
+
                     }
                 }
             }
@@ -56,11 +63,22 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
+// todo: on click, generate a popup window with text field to input a name, which will create a new timeline event
 @Composable
 fun FilledButtonExample(onClick: () -> Unit) {
     Button(onClick = { onClick() }) {
         Text("Generate New Timeline Event")
     }
+}
+
+@Preview
+@Composable
+fun StateBasedTextSnippets() {
+    OutlinedTextField(
+        state = rememberTextFieldState(),
+        lineLimits = TextFieldLineLimits.SingleLine,
+        label = { Text("Label") },
+    )
 }
 
 @Preview(showBackground = true)
