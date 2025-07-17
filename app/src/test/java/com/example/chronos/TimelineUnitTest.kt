@@ -87,7 +87,7 @@ class TimelineUnitTest {
      */
     @Test
     fun removeTimelineEventByUUID_eventExistsWithOthers(){
-        val time = 0;
+        val time = 0
         val timelineEvent1 = TimelineEvent("testEvent", time)
         val timelineEvent2 = TimelineEvent("testEvent2", time)
         val timelineMap = hashMapOf<Int, ArrayList<TimelineEvent>>()
@@ -99,5 +99,30 @@ class TimelineUnitTest {
         timeline.removeEventByUUID(timelineEvent1.eventUUID)
         assertEquals(1, timeline.eventMap.size)
         assertEquals(1, timeline.eventMap.getValue(time).size)
+    }
+
+    /**
+     * If the timestamp of the first event is before the timestamp of the second before reordering,
+     * then nothing should happen
+     */
+    @Test
+    fun reorderTimelineEvents_newFirstEventAlreadyFirst(){
+        fail()
+    }
+
+    /**
+     * If there are only two events, the timestamps should swap
+     */
+    @Test
+    fun reorderTimelineEvents_twoTimestampCase(){
+        fail()
+    }
+
+    /**
+     * If there are multiple events behind the new first event, all timestamps should be updated to maintain order
+     */
+    @Test
+    fun reorderTimelineEvents_threeOrMoreTimestampCase(){
+        fail()
     }
 }

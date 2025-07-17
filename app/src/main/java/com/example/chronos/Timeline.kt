@@ -37,17 +37,22 @@ class Timeline(var name: String, var eventMap: HashMap<Int, ArrayList<TimelineEv
      * Return -1 if the timeline has no events
      */
     fun getLastestTimestamp(): Int {
-        return -1;
+        return -1
     }
 
     /**
      * given 2 timeline events, put 'newFirstEvent' before 'newSecondEvent'
      * which means - if newFirstEvent has the same timestamp as newSecondEvent
-     * one or both timestamps will need to change; may or may not be added to a previously existing list or create a new one
-     * ...may or may not need to update the entire list
-     * ...basically this is like, the whole thing right here isn't it
+     * one or both timestamps will need to change
+     * WILL ALWAYS CREATE NEW TIMESTAMP ENTRY
+     * DOES NOT COVER THE CASE OF MOVING AN EVENT INTO ALREADY EXISTING TIMESTAMP
+     *
+     * todo: give function a better name
      */
     fun reorderEvents(newFirstEvent: TimelineEvent, newSecondEvent: TimelineEvent) {
-        
+        //if new first event is already first, then exit
+        newFirstEvent.eventUUID
+        newSecondEvent.eventUUID
+        //else actually do things
     }
 }
