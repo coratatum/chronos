@@ -5,14 +5,15 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class TimelineEvent(eventName: String, eventNotes: String = "",) {
+class TimelineEvent(var eventName: String, var timestamp: Int, var eventNotes: String = "",) {
 
-    val eventUUID = Uuid.random();
-
-    var eventName = eventName
-    var eventNotes = eventNotes
+    val eventUUID = Uuid.random()
 
     fun logUuid() {
-        Log.d("TimelineEventClass","EventName: " + eventName+ " EventUUID: " + eventUUID)
+        Log.d("TimelineEventClass","EventName: " + eventName + " EventUUID: " + eventUUID)
+    }
+
+    fun logNotes() {
+        Log.d("TimelineEventClass","EventName: " + eventName + " EventNotes: " + eventNotes)
     }
 }
