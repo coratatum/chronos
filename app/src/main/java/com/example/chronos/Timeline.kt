@@ -26,9 +26,10 @@ class Timeline(var name: String, var eventMap: HashMap<Int, ArrayList<TimelineEv
      * Removes the timeline event with the given uuid from the timeline
      */
     fun removeEventByUUID(eventUUID: Uuid,) {
-        //find the timeline event associated with the uuid
-        //remove it from the list
-        //if the resulting list is empty, delete the key/value pair completely
+        eventMap.entries.forEach { entry ->
+            entry.value.removeIf { event -> event.eventUUID == eventUUID }
+        }
+        eventMap.entries.removeIf { entry -> entry.value.isEmpty() }
     }
 
     /**

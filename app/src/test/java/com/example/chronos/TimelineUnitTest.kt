@@ -50,20 +50,9 @@ class TimelineUnitTest {
         //consider: maybe add more asserts on the events themselves??? not sure
     }
 
-    //todo: update to account for the new functionality
-    @Test
-    fun removeTimelineEventByUUID_eventExists(){
-        val timelineEvent1 = TimelineEvent("testEvent", 0)
-        val timelineMap = hashMapOf<Int, ArrayList<TimelineEvent>>()
-        timelineMap.put(timelineEvent1.timestamp, arrayListOf(timelineEvent1))
-        val timeline = Timeline("testTimeline", timelineMap)
-        assertEquals(1, timeline.eventMap.size)
-
-        timeline.removeEventByUUID(timelineEvent1.eventUUID)
-        assertEquals(0, timeline.eventMap.size)
-    }
-
-    //todo: update to account for the new functionality
+    /**
+     * If the uuid is not found, delete nothing.
+     */
     @Test
     fun removeTimelineEventByUUID_eventDoesNotExist(){
         val timelineEvent1 = TimelineEvent("testEvent", 0)
@@ -75,5 +64,40 @@ class TimelineUnitTest {
         val randomUuid = Uuid.random()
         timeline.removeEventByUUID(randomUuid)
         assertEquals(1, timeline.eventMap.size)
+    }
+
+    /**
+     * If a timestamp has a single entry in the timeline, and it is deleted
+     * remove the timestamp from the map completely
+     */
+    @Test
+    fun removeTimelineEventByUUID_eventExistsAlone(){
+        val timelineEvent1 = TimelineEvent("testEvent", 0)
+        val timelineMap = hashMapOf<Int, ArrayList<TimelineEvent>>()
+        timelineMap.put(timelineEvent1.timestamp, arrayListOf(timelineEvent1))
+        val timeline = Timeline("testTimeline", timelineMap)
+        assertEquals(1, timeline.eventMap.size)
+
+        timeline.removeEventByUUID(timelineEvent1.eventUUID)
+        assertEquals(0, timeline.eventMap.size)
+    }
+
+    /**
+     * If a timestamp has multiple entries, and one is deleted, the rest should stay
+     */
+    @Test
+    fun removeTimelineEventByUUID_eventExistsWithOthers(){
+        val time = 0;
+        val timelineEvent1 = TimelineEvent("testEvent", time)
+        val timelineEvent2 = TimelineEvent("testEvent2", time)
+        val timelineMap = hashMapOf<Int, ArrayList<TimelineEvent>>()
+        timelineMap.put(time, arrayListOf(timelineEvent1, timelineEvent2))
+        val timeline = Timeline("testTimeline", timelineMap)
+        assertEquals(1, timeline.eventMap.size)
+        assertEquals(2, timeline.eventMap.getValue(time).size)
+
+        timeline.removeEventByUUID(timelineEvent1.eventUUID)
+        assertEquals(1, timeline.eventMap.size)
+        assertEquals(1, timeline.eventMap.getValue(time).size)
     }
 }
