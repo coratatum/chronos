@@ -1,5 +1,6 @@
 package com.example.chronos
 
+import kotlin.collections.HashMap
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -23,7 +24,9 @@ class Timeline(var name: String, var eventMap: HashMap<Int, ArrayList<TimelineEv
     }
 
     /**
-     * Removes the timeline event with the given uuid from the timeline
+     * Removes the timeline event(s) with the given uuid from the timeline
+     * While there should not be multiple events with the same uuid,
+     * this will remove ALL events with the given uuid
      */
     fun removeEventByUUID(eventUUID: Uuid,) {
         eventMap.entries.forEach { entry ->
@@ -41,18 +44,53 @@ class Timeline(var name: String, var eventMap: HashMap<Int, ArrayList<TimelineEv
     }
 
     /**
+     * Make the given event the first event in the timeline
+     * (put at timestamp 0; all other events move up one)
+     * ASSUMES EVENT IS NOT ALREADY IN THE TIMELINE
+     */
+    fun putEventFirst(event: TimelineEvent) {
+        val updatedEventMap: HashMap<Int, ArrayList<TimelineEvent>> = hashMapOf()
+        //update each event's internal timestamp by 1
+        eventMap.entries.forEach { entry ->
+            entry.value.forEach {
+                event -> event.timestamp++
+            }
+        }
+        //move all timeline entries up 1 timestamp key
+        eventMap.entries.forEach { entry ->
+            val newKey = entry.key+1
+            updatedEventMap.put(newKey, entry.value)
+        }
+        //add event to first timestamp 0
+        event.timestamp = 0
+        updatedEventMap.put(event.timestamp, arrayListOf(event))
+        //make updated map the event map
+        eventMap = updatedEventMap
+    }
+
+    /**
      * given 2 timeline events, put 'newFirstEvent' before 'newSecondEvent'
      * which means - if newFirstEvent has the same timestamp as newSecondEvent
      * one or both timestamps will need to change
-     * WILL ALWAYS CREATE NEW TIMESTAMP ENTRY
-     * DOES NOT COVER THE CASE OF MOVING AN EVENT INTO ALREADY EXISTING TIMESTAMP
      *
      * todo: give function a better name
      */
     fun reorderEvents(newFirstEvent: TimelineEvent, newSecondEvent: TimelineEvent) {
         //if new first event is already first, then exit
-        newFirstEvent.eventUUID
-        newSecondEvent.eventUUID
-        //else actually do things
+        if (newFirstEvent.timestamp < newSecondEvent.timestamp) {
+            return
+        } else { //else actually do things
+            //remove "new First Event" from current location
+            removeEventByUUID(newFirstEvent.eventUUID)
+            //update "new First Event's timestamp to be one before the "new second event"
+            var newFirstEventTimestamp = newSecondEvent.timestamp - 1
+            if (newFirstEventTimestamp < 0) {
+                putEventFirst(newFirstEvent)
+            } else {
+                newFirstEvent.timestamp = newFirstEventTimestamp
+                addEvent(newFirstEvent)
+            }
+
+        }
     }
 }

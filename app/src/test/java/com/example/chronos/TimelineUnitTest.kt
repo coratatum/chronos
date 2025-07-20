@@ -102,6 +102,14 @@ class TimelineUnitTest {
     }
 
     /**
+     * Put the given event first in the timeline. All other events moved up 1 timestamp
+     */
+    @Test
+    fun putEventFirst(){
+        fail()
+    }
+
+    /**
      * If the timestamp of the first event is before the timestamp of the second before reordering,
      * then nothing should happen
      */
