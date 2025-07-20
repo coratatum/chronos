@@ -11,6 +11,9 @@ class Timeline(var name: String, var eventMap: HashMap<Int, ArrayList<TimelineEv
     //in UI, when making a "new event" we would want to grab the latest timestamp,
     //and apply that+1 as the internal time for the new event. i think.
 
+    //another question: does each event NEED to know its time, internally? should the timestamp only be tracked
+    //at the timeline level? something to consider...
+
     /**
      * Adds the timeline event to the timeline
      */

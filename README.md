@@ -4,7 +4,12 @@ Timeline App for writers.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+Goal: Android application to help create timelines for writers.
+Events should be able to be added and reordered as needed
+* toggle lock to ensure events aren't reordered on accident
+Events should be expandable for editable notes
+Timelines should be able to be shared
+* currently totally acceptable if this is just a config file you can share to someone else
 
 ## Authors
 

@@ -106,7 +106,22 @@ class TimelineUnitTest {
      */
     @Test
     fun putEventFirst(){
-        fail()
+        val timelineEvent0 = TimelineEvent("testEvent0", 0)
+        val timelineEvent1 = TimelineEvent("testEvent1", 1)
+        val timelineEvent2 = TimelineEvent("testEvent2", 2)
+        val timeline = Timeline("name")
+        timeline.addEvent(timelineEvent0)
+        timeline.addEvent(timelineEvent1)
+        timeline.addEvent(timelineEvent2)
+        assertEquals(3, timeline.eventMap.size)
+        assertEquals(0, timelineEvent0.timestamp)
+
+        val newFirstEvent = TimelineEvent("newFirstEvent", 12)
+        timeline.putEventFirst(newFirstEvent)
+        assertEquals(4, timeline.eventMap.size)
+        assertEquals(0, newFirstEvent.timestamp)
+        assertEquals(1, timelineEvent0.timestamp)
+        assertEquals(timelineEvent0.eventUUID, timeline.eventMap.getValue(1)[0].eventUUID)
     }
 
     /**
